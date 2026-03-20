@@ -3,7 +3,7 @@ import Hero from "../components/landing/Hero";
 import MarqueeStrip from "../components/landing/MarqueeStrip";
 import VehiculesSection from "../components/landing/VehiculesSection";
 import HowItWorks from "../components/landing/HowItWorks";
-  
+import Temoignages from "../components/landing/Temoignages";
 
 export default function LandingPage() {
   return (
@@ -13,6 +13,7 @@ export default function LandingPage() {
       <MarqueeStrip/>
       <VehiculesSection/>
       <HowItWorks/>
+      <Temoignages/>
     </div>
   );
 }
