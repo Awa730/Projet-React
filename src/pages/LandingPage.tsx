@@ -4,6 +4,7 @@ import MarqueeStrip from "../components/landing/MarqueeStrip";
 import VehiculesSection from "../components/landing/VehiculesSection";
 import HowItWorks from "../components/landing/HowItWorks";
 import Temoignages from "../components/landing/Temoignages";
+import Offres from "../components/landing/Offres";
 
 export default function LandingPage() {
   return (
@@ -14,6 +15,7 @@ export default function LandingPage() {
       <VehiculesSection/>
       <HowItWorks/>
       <Temoignages/>
+      <Offres/>
     </div>
   );
 }
