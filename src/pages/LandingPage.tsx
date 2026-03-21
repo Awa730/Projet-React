@@ -5,6 +5,7 @@ import VehiculesSection from "../components/landing/VehiculesSection";
 import HowItWorks from "../components/landing/HowItWorks";
 import Temoignages from "../components/landing/Temoignages";
 import Offres from "../components/landing/Offres";
+import Footer from "../components/landing/Footer";
 
 export default function LandingPage() {
   return (
@@ -16,6 +17,7 @@ export default function LandingPage() {
       <HowItWorks/>
       <Temoignages/>
       <Offres/>
+      <Footer/>
     </div>
   );
 }
