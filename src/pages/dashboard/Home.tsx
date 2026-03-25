@@ -42,12 +42,12 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <button
-                        onClick={() => navigate('/dashboard')}
-                        className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg text-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition shadow-lg"
-                    >
-                        Accéder au tableau de bord →
-                    </button>
+    <button
+        onClick={() => navigate('/dashboard/main')}
+        className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg text-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition shadow-lg"
+      >
+        Accéder au tableau de bord →
+      </button>
                 </div>
 
                 <p className="text-white mt-8 text-sm">

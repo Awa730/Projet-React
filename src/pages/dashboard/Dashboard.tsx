@@ -359,9 +359,9 @@ const StatistiquesView: React.FC<{ reservations: Reservation[] }> = ({ reservati
                                     <span className="font-medium text-gray-700">{nom}</span>
                                     <span className="text-gray-500 font-semibold">{count} rés.</span>
                                 </div>
-                                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div className="h-full bg-gradient-to-r from-blue-500 to-blue-700 rounded-full transition-all" style={{ width: `${(count / maxVeh) * 100}%` }} />
-                                </div>
+    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-blue-500 to-blue-700 rounded-full transition-all" style={{width: \`${(count / maxVeh) * 100}%\`}} />
+    </div>
                             </div>
                         </div>
                     ))}
@@ -379,9 +379,6 @@ const StatistiquesView: React.FC<{ reservations: Reservation[] }> = ({ reservati
                                 <div className="flex justify-between text-sm mb-1">
                                     <span className="font-medium text-gray-700">{lieu}</span>
                                     <span className="text-gray-500 font-semibold">{count} rés.</span>
-                                </div>
-                                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-700 rounded-full" style={{ width: `${(count / maxLieu) * 100}%` }} />
                                 </div>
                             </div>
                         </div>
