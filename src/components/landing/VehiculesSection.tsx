@@ -3,7 +3,7 @@ import { useState } from "react";
 type Tab = "location" | "achat";
 type Status = "available" | "limited" | "unavailable";
 
-interface Vehicule {
+export interface Vehicule {
   id: number;
   nom: string;
   categorie: string;
@@ -15,6 +15,8 @@ interface Vehicule {
   prixAchat: number;
   image: string;
 }
+
+export type { Tab };
 
 const vehicules: Vehicule[] = [
   { id: 1, nom: "BMW M4",              categorie: "Sport",    places: 4, carburant: "Essence", boite: "Manuelle",    statut: "available", prixLocation: 80000,  prixAchat: 35000000,   image: "/images/bmw.jpg"          },
@@ -35,139 +37,148 @@ const statutConfig: Record<Status, { label: string; cls: string }> = {
 };
 
 const BadgeStatut = ({ statut }: { statut: Status }) => (
-  <span className={`text-xs font-semibold tracking-widest uppercase px-2.5 py-1 border rounded-sm ${statutConfig[statut].cls}`}>
+    <span className={`text-xs font-semibold tracking-widest uppercase px-2.5 py-1 border rounded-sm ${statutConfig[statut].cls}`}>
     {statutConfig[statut].label}
   </span>
 );
 
-const CarteVehicule = ({ vehicule, onglet }: { vehicule: Vehicule; onglet: Tab }) => (
-  <div className="bg-white border border-gray-100 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-50 transition-all group cursor-pointer rounded-sm">
+interface CarteVehiculeProps {
+  vehicule: Vehicule;
+  onglet: Tab;
+  onReservation: (vehicule: Vehicule, type: Tab) => void;
+}
 
-    {/* Image */}
-    <div className="relative h-48 bg-gray-50 rounded-t-sm overflow-hidden">
-      <img
-        src={vehicule.image}
-        alt={vehicule.nom}
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-      />
-      <div className="absolute top-3 left-3">
-        <BadgeStatut statut={vehicule.statut} />
-      </div>
-      <div className="absolute top-3 right-3">
+const CarteVehicule = ({ vehicule, onglet, onReservation }: CarteVehiculeProps) => (
+    <div className="bg-white border border-gray-100 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-50 transition-all group cursor-pointer rounded-sm">
+      {/* Image */}
+      <div className="relative h-48 bg-gray-50 rounded-t-sm overflow-hidden">
+        <img
+            src={vehicule.image}
+            alt={vehicule.nom}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <div className="absolute top-3 left-3">
+          <BadgeStatut statut={vehicule.statut} />
+        </div>
+        <div className="absolute top-3 right-3">
         <span className="text-xs text-gray-500 bg-white/90 border border-gray-100 px-2 py-0.5 rounded-sm">
           {vehicule.categorie}
         </span>
-      </div>
-    </div>
-
-    {/* Contenu */}
-    <div className="p-5">
-      <h3 className="text-lg font-bold text-gray-900 group-hover:text-orange-500 transition-colors mb-1">
-        {vehicule.nom}
-      </h3>
-      <p className="text-xs text-gray-400 mb-4">
-        {vehicule.boite} · {vehicule.carburant}
-      </p>
-
-      {/* Specs */}
-      <div className="grid grid-cols-3 gap-2 border-t border-gray-100 pt-4 mb-5">
-        <div className="text-center">
-          <p className="text-sm font-bold text-gray-800">{vehicule.places}</p>
-          <p className="text-xs text-gray-400">Places</p>
-        </div>
-        <div className="text-center border-x border-gray-100">
-          <p className="text-xs font-bold text-gray-800">{vehicule.carburant}</p>
-          <p className="text-xs text-gray-400">Carburant</p>
-        </div>
-        <div className="text-center">
-          <p className="text-xs font-bold text-gray-800">{vehicule.boite === "Manuelle" ? "Man." : "Auto."}</p>
-          <p className="text-xs text-gray-400">Boîte</p>
         </div>
       </div>
 
-      {/* Prix + Bouton */}
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-xs text-gray-400 uppercase tracking-widest mb-0.5">
-            {onglet === "location" ? "Prix / jour" : "Prix d'achat"}
-          </p>
-          <p
-            className="text-2xl font-black text-orange-500"
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-          >
-            {onglet === "location"
-              ? vehicule.prixLocation.toLocaleString("fr-FR")
-              : vehicule.prixAchat.toLocaleString("fr-FR")}
-            <span className="text-xs text-gray-400 font-normal ml-1">
+      {/* Contenu */}
+      <div className="p-5">
+        <h3 className="text-lg font-bold text-gray-900 group-hover:text-orange-500 transition-colors mb-1">
+          {vehicule.nom}
+        </h3>
+        <p className="text-xs text-gray-400 mb-4">
+          {vehicule.boite} · {vehicule.carburant}
+        </p>
+
+        {/* Specs */}
+        <div className="grid grid-cols-3 gap-2 border-t border-gray-100 pt-4 mb-5">
+          <div className="text-center">
+            <p className="text-sm font-bold text-gray-800">{vehicule.places}</p>
+            <p className="text-xs text-gray-400">Places</p>
+          </div>
+          <div className="text-center border-x border-gray-100">
+            <p className="text-xs font-bold text-gray-800">{vehicule.carburant}</p>
+            <p className="text-xs text-gray-400">Carburant</p>
+          </div>
+          <div className="text-center">
+            <p className="text-xs font-bold text-gray-800">{vehicule.boite === "Manuelle" ? "Man." : "Auto."}</p>
+            <p className="text-xs text-gray-400">Boîte</p>
+          </div>
+        </div>
+
+        {/* Prix + Bouton */}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs text-gray-400 uppercase tracking-widest mb-0.5">
+              {onglet === "location" ? "Prix / jour" : "Prix d'achat"}
+            </p>
+            <p
+                className="text-2xl font-black text-orange-500"
+                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            >
+              {onglet === "location"
+                  ? vehicule.prixLocation.toLocaleString("fr-FR")
+                  : vehicule.prixAchat.toLocaleString("fr-FR")}
+              <span className="text-xs text-gray-400 font-normal ml-1">
               {onglet === "location" ? "FCFA/j" : "FCFA"}
             </span>
-          </p>
+            </p>
+          </div>
+          <button
+              disabled={vehicule.statut === "unavailable"}
+              onClick={() => vehicule.statut !== "unavailable" && onReservation(vehicule, onglet)}
+              className={`px-4 py-2 text-xs font-bold tracking-widest uppercase rounded-sm transition-all ${
+                  vehicule.statut !== "unavailable"
+                      ? "bg-orange-500 hover:bg-orange-600 text-white shadow-md shadow-orange-100"
+                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
+              }`}
+          >
+            {onglet === "location" ? "Réserver" : "Acheter"}
+          </button>
         </div>
-        <button
-          disabled={vehicule.statut === "unavailable"}
-          className={`px-4 py-2 text-xs font-bold tracking-widest uppercase rounded-sm transition-all ${
-            vehicule.statut !== "unavailable"
-              ? "bg-orange-500 hover:bg-orange-600 text-white shadow-md shadow-orange-100"
-              : "bg-gray-100 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          {onglet === "location" ? "Réserver" : "Acheter"}
-        </button>
       </div>
     </div>
-  </div>
 );
 
-export default function VehiclesSection() {
+interface VehiclesSectionProps {
+  onReservation: (vehicule: Vehicule, type: Tab) => void;
+}
+
+export default function VehiclesSection({ onReservation }: VehiclesSectionProps) {
   const [ongletActif, setOngletActif] = useState<Tab>("location");
 
   return (
-    <section id="vehicles" className="px-6 md:px-[5vw] py-24 bg-white">
-
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
-        <div>
-          <p className="text-xs tracking-[0.25em] uppercase text-orange-500 mb-3 font-semibold">
-            Notre flotte
-          </p>
-          <h2
-            className="text-[clamp(2.5rem,5vw,4rem)] text-gray-900 leading-none"
-            style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+      <section id="vehicles" className="px-6 md:px-[5vw] py-24 bg-white">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-10">
+          <div>
+            <p className="text-xs tracking-[0.25em] uppercase text-orange-500 mb-3 font-semibold">
+              Notre flotte
+            </p>
+            <h2
+                className="text-[clamp(2.5rem,5vw,4rem)] text-gray-900 leading-none"
+                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+            >
+              Véhicules<br />disponibles
+            </h2>
+          </div>
+          <a
+              href="#"
+              className="text-gray-400 hover:text-orange-500 text-xs tracking-widest uppercase border-b border-gray-200 hover:border-orange-400 pb-0.5 transition-all mt-4 md:mt-0"
           >
-            Véhicules<br />disponibles
-          </h2>
+            Voir tous les véhicules →
+          </a>
         </div>
-        <a
-          href="#"
-          className="text-gray-400 hover:text-orange-500 text-xs tracking-widest uppercase border-b border-gray-200 hover:border-orange-400 pb-0.5 transition-all mt-4 md:mt-0"
-        >
-          Voir tous les véhicules →
-        </a>
-      </div>
 
-      {/* Onglets */}
-      <div className="flex gap-2 mb-10">
-        {(["location", "achat"] as Tab[]).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setOngletActif(tab)}
-            className={`px-8 py-3 text-sm font-bold tracking-widest uppercase rounded-sm border transition-all ${
-              ongletActif === tab
-                ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
-                : "border-gray-200 text-gray-400 hover:border-orange-300 hover:text-orange-500 bg-white"
-            }`}
-          >
-            {tab === "location" ? "🔑 Location" : "💰 Achat"}
-          </button>
-        ))}
-      </div>
+        {/* Onglets */}
+        <div className="flex gap-2 mb-10">
+          {(["location", "achat"] as Tab[]).map((tab) => (
+              <button
+                  key={tab}
+                  onClick={() => setOngletActif(tab)}
+                  className={`px-8 py-3 text-sm font-bold tracking-widest uppercase rounded-sm border transition-all ${
+                      ongletActif === tab
+                          ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
+                          : "border-gray-200 text-gray-400 hover:border-orange-300 hover:text-orange-500 bg-white"
+                  }`}
+              >
+                {tab === "location" ? "🔑 Location" : "💰 Achat"}
+              </button>
+          ))}
+        </div>
 
-      {/* Grille */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {vehicules.map((v) => (
-          <CarteVehicule key={v.id} vehicule={v} onglet={ongletActif} />
-        ))}
-      </div>
-    </section>
+        {/* Grille */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {vehicules.map((v) => (
+              <CarteVehicule key={v.id} vehicule={v} onglet={ongletActif} onReservation={onReservation} />
+          ))}
+        </div>
+      </section>
   );
 }
