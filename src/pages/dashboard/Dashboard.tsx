@@ -472,7 +472,7 @@ const HistoriqueView: React.FC<{ reservations: Reservation[] }> = ({ reservation
             {}
             {terminees.length > 0 ? (
                 <div className="space-y-3">
-                    {terminees.map((r, i) => (
+                    {terminees.map((r) => (
                         <div key={r.id} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all">
                             <div className="flex items-start justify-between flex-wrap gap-3">
                                 <div className="flex items-center gap-4">
